@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAT-UP DRAFT - VANILLA JS</title>
+</head>
+
+<!-- THIS IS A DRAFT OF THE DESIGN, AND THE AUTHENTICATION OF HOW THE CHATAPP WILL LOOK. - FOR PROJECT MANAGEMENT, SCHEDULLING, VIDEO CALLING AND CHATTING. (HTML, CSS AND JAVASCRIPT - MIGRATE TO REACT LATER.) -->
+
+<body>
+    <div class="wrapper">
+        <main class="main-app">
+
+            <section class="main-app__header">
+                <h1 class="main-app__head-text">CHAT-UP</h1>
+                <img class="main-app__logo" src="" alt="CHAT-UP-LOGO">
+            </section>
+            <!-- A prompt before the Login Interface (For the SignUp and Login Toggler) -->
+
+            <section class="main-app__toggler">
+                <p class="main-app__login">
+                    Login to your Account
+                </p>
+
+                <span>|</span>
+
+                <p class="main-app__sign-up">
+                    SignUp with Us
+                </p>
+            </section>
+
+            <section class="main-app__form-wrapper">
+                <!-- Where the Login Form is -->
+                <form class="main-app__form" action="#">
+                    <!-- FOR LOGIN IN. -->
+
+                    <fieldset class="main-app__form-field">
+                        <legend>
+                            <label for="username" class="main-app__label">
+                                Username:
+                            </label>
+                            <input class="main-app__input" type="text" id="username" name="username">
+                        </legend>
+                    </fieldset>
+
+                    <fieldset class="main-app__form-field">
+                        <legend>
+                            <label for="password" class="main-app__label">
+                                Password:
+                            </label>
+                            <input class="main-app__input" type="password" id="password" name="password">
+                        </legend>
+                    </fieldset>
+
+                    <div class="main-app__button-group">
+                        <button class="main-app__button"><a class="main-app__link" href="#">Login</a></button>
+
+                        <button class="main-app__button"><a class="main-app__link" href="#">Forgot Password</a></button>
+                    </div>
+                </form>
+            </section>
+        </main>
+
+
+        <footer>
+            <small>
+                &copy; 2023 Chat-Up Inc
+            </small>
+        </footer>
+    </div>
+</body>
+
+<script src="./script.js">
+    // Ship Reusable Code. - Don't run away from challenges.
+</script>
+
+</html>
