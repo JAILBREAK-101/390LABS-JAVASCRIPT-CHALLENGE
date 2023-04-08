@@ -1,0 +1,26 @@
+@use './colors';
+@use '../base/utilities'as *;
+
+:root {
+
+    @each $colorName,
+    $colorValues in colors.$colors {
+        --clr-#{$colorName}: #{$colorValues};
+    }
+
+
+    @each $property,
+    $map in $utilities {
+        $prefix: map-get($map, "prefix");
+        $values: map-get($map, $map);
+
+        @each $key,
+        $value in $values {
+            .#{$prefix}-#{$key}: $values;
+
+            // @else {
+
+            // }
+        }
+    }
+}

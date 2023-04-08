@@ -5,76 +5,170 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHAT-UP DRAFT - VANILLA JS</title>
-</head>
+    <title>GUESSING GAME</title>
+    <style>
+        .hidden {
+            display: none;
+            transition: display .2 ease-in-out;
+        }
 
-<!-- THIS IS A DRAFT OF THE DESIGN, AND THE AUTHENTICATION OF HOW THE CHATAPP WILL LOOK. - FOR PROJECT MANAGEMENT, SCHEDULLING, VIDEO CALLING AND CHATTING. (HTML, CSS AND JAVASCRIPT - MIGRATE TO REACT LATER.) -->
+        .stop-game {
+            pointer-events: none;
+            opacity: .5;
+        }
+
+        body {
+            height: 100vh;
+        }
+
+        .wrapper {
+            display: flex;
+            min-height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .guess-game {
+            border: 1px solid red;
+            padding: 4rem;
+            border-radius: 20px;
+        }
+    </style>
+</head>
 
 <body>
     <div class="wrapper">
-        <main class="main-app">
+        <!-- The guessing game container -->
+        <div class="guess-game">
+            <header class="header">
+                <p class="header__details">Level <span class="header__level">x</span> Score: <span
+                        class="header__score">x</span> In <span class="header__tries">x</span> Tries</p>
+            </header>
 
-            <section class="main-app__header">
-                <h1 class="main-app__head-text">CHAT-UP</h1>
-                <img class="main-app__logo" src="" alt="CHAT-UP-LOGO">
-            </section>
-            <!-- A prompt before the Login Interface (For the SignUp and Login Toggler) -->
+            <main class="main">
+                <section class="guess-game__home" title="homepage">
+                    <h1 class="guess-game__header">JavaScript Guess Game</h1>
+                    <h2 class="guess-game__sub-header">Can you guess correctly?</h2>
+                    <button class="guess-game__play-button">Play</button>
+                </section>
 
-            <section class="main-app__toggler">
-                <p class="main-app__login">
-                    Login to your Account
-                </p>
+                <!-- SELECTION ASPECT -->
+                <section class="guess__game-selection hidden" title="">
 
-                <span>|</span>
+                    <div class="guess-game__levels">
+                        <h3 class="guess-game__levels-header">Pick your Level</h3>
+                        <ul class="guess-game__levels-list">
+                            <li class="guess-game__each-level">
+                                <label for="level-1" class="level__label">Level 1</label>
+                                <input type="radio" class="level__radio-button" id="level-1" name="level" value=1>
+                            </li>
+                            <li class="guess-game__each-level">
+                                <label for="level-2" class="level-label">Level 2</label>
+                                <input type="radio" class="level__radio-button" id="level-2" name="level" value=2>
+                            </li>
+                            <li class="guess-game__each-level">
+                                <label for="level-3" class="level-label">Level 3</label>
+                                <input type="radio" class="level__radio-button" id="level-3" name="level" value=3>
+                            </li>
+                            <li class="guess-game__each-level">
+                                <label for="level-4" class="level-label">Level 4
+                                </label>
+                                <input type="radio" class="level__radio-button" id="level-4" name="level" value=4>
+                            </li>
+                            <li class="guess-game__each-level">
+                                <label for="level-5" class="level-label">Level 5</label>
+                                <input type="radio" class="level__radio-button" id="level-5" name="level" value=5>
+                            </li>
+                            <li class="guess-game__each-level">
+                                <label for="level-6" class="level-label">Level 6 </label>
+                                <input type="radio" class="level__radio-button" id="level-6" name="level" value=6>
+                            </li>
+                            <li class="guess-game__each-level">
+                                <label for="level-7" class="level-label">Level 7</label>
+                                <input type="radio" class="level__radio-button" id="level-7" name="level" value=7>
+                            </li>
+                        </ul>
 
-                <p class="main-app__sign-up">
-                    SignUp with Us
-                </p>
-            </section>
-
-            <section class="main-app__form-wrapper">
-                <!-- Where the Login Form is -->
-                <form class="main-app__form" action="#">
-                    <!-- FOR LOGIN IN. -->
-
-                    <fieldset class="main-app__form-field">
-                        <legend>
-                            <label for="username" class="main-app__label">
-                                Username:
-                            </label>
-                            <input class="main-app__input" type="text" id="username" name="username">
-                        </legend>
-                    </fieldset>
-
-                    <fieldset class="main-app__form-field">
-                        <legend>
-                            <label for="password" class="main-app__label">
-                                Password:
-                            </label>
-                            <input class="main-app__input" type="password" id="password" name="password">
-                        </legend>
-                    </fieldset>
-
-                    <div class="main-app__button-group">
-                        <button class="main-app__button"><a class="main-app__link" href="#">Login</a></button>
-
-                        <button class="main-app__button"><a class="main-app__link" href="#">Forgot Password</a></button>
+                        <button class="guess-game__start-button">Start Game</button>
                     </div>
-                </form>
-            </section>
-        </main>
+                </section>
+
+                <!-- THE GAME ASPECT -->
+                <section class="guess__game-gameplay hidden" title="gameplay ui">
+
+                    <section class="guess-game__comparison" title="score and numbers block">
+
+                        <section class="guess-game__header" title="header">
+                            <div class="guess-game__number">Correct Number
+                                <!-- The Number the computer generates will come in here -->
+                                <span class="guess-game__corret-no">?</span>
+                            </div>
+
+                            <div class="guess-game__number">Your Guess
+                                <!-- The Number the computer generates will come in here -->
+                                <span class="guess-game__your-guess"></span>
+                            </div>
+                        </section>
+                    </section>
+
+                    <!-- Game Box -->
+                    <section class="guess-game__body" title="body">
+
+                        <section class="level" title="">
+                            <h1>Welcome to Level <span class="level__value"></span></h1>
+                            <h2>Difficulty: <span class="level__difficulty"></span></h2>
+                        </section>
+
+                        <p>In this level, <span class="level__description"></span></p>
+
+                        <form class="guess-game__form" action="#">
+                            <fieldset class="guess-game__field">
+                                <legend class="guess-game__label">
+                                    <label for="user-guess">Type in your guess: </label>
+                                </legend>
+                                <input type="number" class="guess-game__input">
+                            </fieldset>
+
+                            <button class="guess-game__button make-attempt">Guess</button>
+                        </form>
+                    </section>
+
+                    <section class="guess-game__footer" title="footer">
+
+                        <p class="guess-game__no-of-tries">
+                            <b> You have <span class="tries-count">4</span> attempt[s] left </b>
+                        </p>
+
+                        <!-- End Game Texts and Button -->
+                        <div class="guess-game__reveal-text">
+                            <h1 class="guess-game__game-over hidden">Game Over</h1>
+                            <h1 class="guess-game__game-won hidden">Hurray, You guessed correctly</h1>
+                        </div>
+
+                        <div class="guess-game__gameplay-buttons">
+                            <button class="guess-game__play-again hidden">Play Again</button>
+                            <button class="guess-game__end-game">End Game</button>
+                        </div>
 
 
-        <footer>
-            <small>
-                &copy; 2023 Chat-Up Inc
-            </small>
-        </footer>
+                        <section class="guess__game-dialog" title="game buttons">
+                            <div class="endGame">
+
+                            </div>
+
+                            <div class="playGame">
+
+                            </div>
+                        </section>
+                    </section>
+
+                </section>
+            </main>
+
+            <footer><small>A 390 Labs Challenge</small></footer>
+        </div>
     </div>
+    <script src="./script.js"></script>
 </body>
-
-<script src="./script.js">
-    // Ship Reusable Code. - Don't run away from challenges.
-</script>
 
 </html>

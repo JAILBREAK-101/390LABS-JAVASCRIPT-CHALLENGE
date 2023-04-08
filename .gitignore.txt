@@ -1,0 +1,2 @@
+## Hide the sass folder but let the CSS show.
+scss
