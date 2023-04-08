@@ -142,7 +142,7 @@ let calculateScores = (guess, correctNo) => {
 };
 
 let storeScores = (currentScore) => {
-  JSON.stringify(localStorage.setItem("userScore", currentScore));
+  JSON.stringify(localStorage.setItem("userScore", `${currentScore}`));
 };
 
 let displayLevelInfo = (level) => {
@@ -194,7 +194,7 @@ let checkGuess = (value) => {
   correctNo.innerText = generatedNumber;
   value === generatedNumber
     ? gameWon()
-    : decrementNoOfTries(triesCountEl, score);
+    : decrementNoOfTries(triesCountEl, scoresValue);
   calculateScores(value, generatedNumber);
 };
 
