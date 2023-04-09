@@ -6,35 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUESSING GAME</title>
-    <link rel="stylesheet" href="scss/stylesheet/main.scss">
-    <style>
-        .hidden {
-            display: none;
-            transition: display .2 ease-in-out;
-        }
-
-        .stop-game {
-            pointer-events: none;
-            opacity: .5;
-        }
-
-        body {
-            height: 100vh;
-        }
-
-        .wrapper {
-            display: flex;
-            min-height: 100%;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .guess-game {
-            border: 1px solid red;
-            padding: 4rem;
-            border-radius: 20px;
-        }
-    </style>
+    <script defer src="./script.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -54,7 +27,7 @@
                 </section>
 
                 <!-- SELECTION ASPECT -->
-                <section class="guess__game-selection hidden" title="">
+                <section class="guess-game__selection hidden" title="">
 
                     <div class="guess-game__levels">
                         <h3 class="guess-game__levels-header">Pick your Level</h3>
@@ -95,20 +68,21 @@
                 </section>
 
                 <!-- THE GAME ASPECT -->
-                <section class="guess__game-gameplay hidden" title="gameplay ui">
+                <section class="guess-game__gameplay hidden" title="gameplay ui">
 
                     <section class="guess-game__comparison" title="score and numbers block">
 
                         <section class="guess-game__header" title="header">
-                            <div class="guess-game__number">Correct Number
-                                <!-- The Number the computer generates will come in here -->
-                                <span class="guess-game__corret-no">?</span>
+                            <div class="guess-game__number">Your Guess
+                                <!-- The Number you guess will come in here -->
+                                <span class="guess-game__your-guess">?</span>
                             </div>
 
-                            <div class="guess-game__number">Your Guess
+                            <div class="guess-game__number">Correct Number
                                 <!-- The Number the computer generates will come in here -->
-                                <span class="guess-game__your-guess"></span>
+                                <span class="guess-game__correct-no">?</span>
                             </div>
+
                         </section>
                     </section>
 
@@ -184,10 +158,9 @@
                 </section>
             </main>
 
-            <footer><small>A 390 Labs Challenge</small></footer>
+            <footer class="footer"><small class="footer__text">&copy; A 390 Labs Challenge</small></footer>
         </div>
     </div>
-    <script src="./script.js"></script>
 </body>
 
 </html>
