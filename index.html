@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUESSING GAME</title>
+    <link rel="stylesheet" href="scss/stylesheet/main.scss">
     <style>
         .hidden {
             display: none;
@@ -41,8 +42,8 @@
         <!-- The guessing game container -->
         <div class="guess-game">
             <header class="header">
-                <p class="header__details">Level <span class="header__level">x</span> Score: <span
-                        class="header__score">x</span> In <span class="header__tries">x</span> Tries</p>
+                <p class="header__details">Level <span class="header__level">0</span> Score: <span
+                        class="header__score">0</span> In <span class="header__tries">0</span> Tries</p>
             </header>
 
             <main class="main">
@@ -146,18 +147,36 @@
                         </div>
 
                         <div class="guess-game__gameplay-buttons">
-                            <button class="guess-game__play-again hidden">Play Again</button>
+                            <button class="guess-game__play-again">Play Again</button>
                             <button class="guess-game__end-game">End Game</button>
                         </div>
 
 
                         <section class="guess__game-dialog" title="game buttons">
-                            <div class="endGame">
-
+                            <div class="endGame hidden">
+                                <h2 class="endGame__h2">
+                                    <span class="endGame__text">
+                                        Do you want to end your game?
+                                    </span>
+                                    <span class="endGame__close">&times;</span>
+                                </h2>
+                                <section class="btn__group">
+                                    <button class="btn__group--yes">Yes</button>
+                                    <button class="btn__group-no">No</button>
+                                </section>
                             </div>
 
-                            <div class="playGame">
-
+                            <div class="playGame hidden">
+                                <h2 class="playGame__h2">
+                                    <span class="playGame__text">
+                                        Do you want to play again?
+                                    </span>
+                                    <span class="playGame__close">&times;</span>
+                                </h2>
+                                <section class="btn__group">
+                                    <button class="btn__group--yes">Yes</button>
+                                    <button class="btn__group-no">No</button>
+                                </section>
                             </div>
                         </section>
                     </section>

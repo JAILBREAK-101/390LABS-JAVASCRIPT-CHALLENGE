@@ -84,11 +84,10 @@ const gameDetails = [
 ];
 
 let scoreMark = 10;
-let scoresValue = Number(document.querySelector(".header__score").innerText);
-const numberOfTries = Number(
-  document.querySelector(".header__tries").innerText
-);
-const level = Number(document.querySelector(".header__level").innerText);
+let scoresValueEl = document.querySelector(".header__score");
+const numberOfTriesEl = document.querySelector(".header__tries");
+const levelEl = document.querySelector(".header__level");
+let numberOfTriesVal = parseInt(numberOfTriesEl.innerText);
 
 const playButton = document.querySelector(".guess-game__play-button");
 const startButton = document.querySelector(".guess-game__start-button");
@@ -105,6 +104,11 @@ let triesCount = Number(triesCountEl.innerText);
 
 const userGuess = document.querySelector(".guess-game__your-guess");
 const correctNo = document.querySelector(".guess-game__corret-no");
+
+const endGameModal = document.querySelector('.endGame');
+const playGameModal = document.querySelector('.playGame');
+
+let requestDetails = [triesCount];
 
 // Initiate Local Storage.
 
@@ -138,11 +142,20 @@ let pickLevel = () => {
 };
 
 let calculateScores = (guess, correctNo) => {
-  guess === correctNo ? scoresValue + scoreMark : scoresValue - scoreMark;
+  guess === correctNo ? (parseInt(scoresValueEl.innerText) += scoreMark) : (parseInt(scoresValueEl.innerText -= scoreMark));
 };
 
-let storeScores = (currentScore) => {
-  JSON.stringify(localStorage.setItem("userScore", `${currentScore}`));
+let aggregateTries = () => {
+  ++numberOfTriesEl.innerText;
+}
+
+let updateValues = (userValue, compValue) => {
+  calculateScores(userValue, compValue);
+  aggregateTries();
+}
+
+let storeUserScore = (currentScore, currentNoOfTries, currentLevel) => {
+  localStorage.setItem("userScore", `Level ${currentLevel} in ${currentNoOfTries} tries = ${currentScore}`);
 };
 
 let displayLevelInfo = (level) => {
@@ -157,6 +170,9 @@ let displayLevelInfo = (level) => {
         ".level__difficulty"
       ).innerText = detail.levelDifficulty);
 
+      // update the level as the game starts on the screen
+      levelEl.innerText = detail.levelNumber;
+
       guessButton.addEventListener("click", (e) => {
         e.preventDefault();
         startGame(detail);
@@ -170,15 +186,11 @@ let switchUI = (currentUI, newUI) => {
   newUI.classList.remove("hidden");
 };
 
-let startGame = (value) => {
-  checkGuess(value);
-};
+let startGame = (value) => checkGuess(value);
 
-let clearInput = () => {
-  guessInput.value = "";
-};
+let clearInput = () => (guessInput.value = "");
 
-let decrementNoOfTries = (count, score) => {
+let decrementNoOfTries = (count, score,) => {
   clearInput();
   --count.innerText;
   if (count.innerText == 0) {
@@ -192,28 +204,57 @@ let checkGuess = (value) => {
   if (guessInput.value === "") return;
   userGuess.innerText = guessInput.value;
   correctNo.innerText = generatedNumber;
+  // updateValues(value, generatedNumber, numberOfTriesVal);
+
   value === generatedNumber
-    ? gameWon()
-    : decrementNoOfTries(triesCountEl, scoresValue);
-  calculateScores(value, generatedNumber);
+    ? gameWon(parseInt(scoresValueEl.innerText), numberOfTriesVal, levelEl.innerText)
+    : decrementNoOfTries(triesCountEl, parseInt(scoresValueEl.innerText));
 };
 
-let gameWon = () => {
+let gameWon = (score, tries, level) => {
   guessForm.classList.add("stop-game");
   revealTexts[1].classList.remove("hidden");
+  storeScores(score, tries, level);
 };
 
-let gameOver = (score) => {
+let gameOver = (score, tries, level) => {
   guessForm.classList.add("stop-game");
   guessInput.blur();
   revealTexts[0].classList.remove("hidden");
   endGameBtn.classList.add("hidden");
   playAgainBtn.classList.remove("hidden");
-  storeScores(score);
+  storeScores(score, tries, lvl);
 };
 
-let endGameForNew = () => {};
+// let onUserRequest = (request, func) => {
+//   let isPlayAgain = prompt(`Do you want to ${request}`);
+//   if (
+//     isPlayAgain.toLowerCase() === "Yes" ||
+//     isPlayAgain.toLowerCase() === "y"
+//   ) {
+//     func;
+//   } else if (isPlayAgain.toLowerCase() === "" || isPlayAgain.toLowerCase() === " ") {
+//     return;
+//   }
+// };
 
-let playAgain = () => {};
+let resetAll = (targetUI) => {
+  triesCountEl.innerText = 4;
+  userGuess.innerText = "";
+  correctNo.innerText = "?";
+  switchUI(gameplayUI, targetUI);
+};
+
+let endGame = () => { 
+  // onUserRequest("end game", resetAll(homepageUI))
+  endGameModal.classList.remove('hidden');
+};
+
+let playAgain = () => {
+  // onUserRequest("play again", resetAll(selectionUI))
+  playGameModal.classList.remove('hidden');
+};
 
 startButton.addEventListener("click", pickLevel);
+playAgainBtn.addEventListener("click", playAgain);
+endGameBtn.addEventListener("click", endGame);
