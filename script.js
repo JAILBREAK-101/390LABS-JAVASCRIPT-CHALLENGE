@@ -85,16 +85,16 @@ const gameDetails = [
 
 let scoreMark = 10;
 let scoresValueEl = document.querySelector(".header__score");
-const numberOfTriesEl = document.querySelector(".header__tries");
+const userTriesEl = document.querySelector(".header__tries");
 const levelEl = document.querySelector(".header__level");
-let numberOfTriesVal = parseInt(numberOfTriesEl.innerText);
+let userTriesVal = parseInt(userTriesEl.innerText);
 
 const playButton = document.querySelector(".guess-game__play-button");
 const startButton = document.querySelector(".guess-game__start-button");
 
 const homepageUI = document.querySelector(".guess-game__home");
-const selectionUI = document.querySelector(".guess__game-selection");
-const gameplayUI = document.querySelector(".guess__game-gameplay");
+const selectionUI = document.querySelector(".guess-game__selection");
+const gameplayUI = document.querySelector(".guess-game__gameplay");
 
 const guessForm = document.querySelector(".guess-game__form");
 const guessInput = document.querySelector(".guess-game__input");
@@ -103,14 +103,10 @@ let triesCountEl = document.querySelector(".tries-count");
 let triesCount = Number(triesCountEl.innerText);
 
 const userGuess = document.querySelector(".guess-game__your-guess");
-const correctNo = document.querySelector(".guess-game__corret-no");
+const correctNo = document.querySelector(".guess-game__correct-no");
 
 const endGameModal = document.querySelector('.endGame');
 const playGameModal = document.querySelector('.playGame');
-
-let requestDetails = [triesCount];
-
-// Initiate Local Storage.
 
 const gameLevels = Array.from(
   document.querySelectorAll(".level__radio-button")
@@ -125,6 +121,9 @@ const playAgainBtn = document.querySelector(".guess-game__gameplay-buttons")
 
 const endGameBtn = document.querySelector(".guess-game__gameplay-buttons")
   .children[1];
+  
+// COME BACK FOR THE SCORE LOGIC WHEN THE USER WINS.
+// COME BACK FOR THE LOGIC FOR THE FUNCTIONAL BUTTONS OF EACH MODAL (YES AND NO).
 
 // functions.
 playButton.addEventListener("click", () => {
@@ -141,26 +140,26 @@ let pickLevel = () => {
   switchUI(selectionUI, gameplayUI);
 };
 
-let calculateScores = (guess, correctNo) => {
-  guess === correctNo ? (parseInt(scoresValueEl.innerText) += scoreMark) : (parseInt(scoresValueEl.innerText -= scoreMark));
-};
+let calculateScores = (guess, correctNo) => guess === correctNo ? (parseInt(scoresValueEl.innerText) += scoreMark): null;
+// (parseInt(scoresValueEl.innerText -= scoreMark))
 
-let aggregateTries = () => {
-  ++numberOfTriesEl.innerText;
+let aggregateTries = (value) => {
+  ++value.innerText;
 }
 
-let updateValues = (userValue, compValue) => {
-  calculateScores(userValue, compValue);
-  aggregateTries();
+// storeUserScore(score, tries, level);
+let updateValues = (score, tries, level) => {
+  storeUserScore(score, tries.innerText, level);
 }
 
-let storeUserScore = (currentScore, currentNoOfTries, currentLevel) => {
-  localStorage.setItem("userScore", `Level ${currentLevel} in ${currentNoOfTries} tries = ${currentScore}`);
+let storeUserScore = (currentScore, currentUserTries, currentLevel) => {
+  localStorage.setItem("userScore", `Level ${currentLevel} in ${currentUserTries} tries = ${currentScore}`);
 };
 
 let displayLevelInfo = (level) => {
   gameDetails.filter((detail) => {
     if (parseInt(level.value) === detail.levelNumber) {
+      // undeclared but used.
       const levelNumber = (document.querySelector(".level__value").innerText =
         detail.levelNumber);
       const levelDescription = (document.querySelector(
@@ -188,55 +187,49 @@ let switchUI = (currentUI, newUI) => {
 
 let startGame = (value) => checkGuess(value);
 
-let clearInput = () => (guessInput.value = "");
-
-let decrementNoOfTries = (count, score,) => {
-  clearInput();
-  --count.innerText;
-  if (count.innerText == 0) {
-    gameOver(score);
-  }
-};
-
 let checkGuess = (value) => {
   let generatedNumber =
     Math.ceil(Math.random() * value.levelRange.max) + value.levelRange.min;
   if (guessInput.value === "") return;
   userGuess.innerText = guessInput.value;
   correctNo.innerText = generatedNumber;
-  // updateValues(value, generatedNumber, numberOfTriesVal);
-
   value === generatedNumber
-    ? gameWon(parseInt(scoresValueEl.innerText), numberOfTriesVal, levelEl.innerText)
-    : decrementNoOfTries(triesCountEl, parseInt(scoresValueEl.innerText));
+    ? gameWon(value, generatedNumber, parseInt(scoresValueEl.innerText), userTriesEl, levelEl.innerText)
+    : decrementNoOfTries(triesCountEl, value, generatedNumber, parseInt(scoresValueEl.innerText), userTriesEl, levelEl.innerText);
 };
 
-let gameWon = (score, tries, level) => {
+let gameWon = (userVal, compVal, score, userTries, level) => {
+  aggregateTries(userTries);
   guessForm.classList.add("stop-game");
   revealTexts[1].classList.remove("hidden");
-  storeScores(score, tries, level);
+  calculateScores(userVal, compVal);
+  updateValues(score, userTries, level);
 };
 
-let gameOver = (score, tries, level) => {
+let clearInput = () => (guessInput.value = "");
+
+let decrementNoOfTries = (tries, userVal, compVal, score, userTries, level) => {
+  --tries.innerText;
+  clearInput();
+  calculateScores(userVal, compVal);
+  aggregateTries(userTries);
+  if (tries.innerText == 0) {
+    gameOver(score, userTries, level);
+  }
+};
+
+let gameOver = (score, userTries, level) => {
   guessForm.classList.add("stop-game");
   guessInput.blur();
   revealTexts[0].classList.remove("hidden");
-  endGameBtn.classList.add("hidden");
-  playAgainBtn.classList.remove("hidden");
-  storeScores(score, tries, lvl);
+  hideButtons();
+  updateValues(score, userTries, level);
 };
 
-// let onUserRequest = (request, func) => {
-//   let isPlayAgain = prompt(`Do you want to ${request}`);
-//   if (
-//     isPlayAgain.toLowerCase() === "Yes" ||
-//     isPlayAgain.toLowerCase() === "y"
-//   ) {
-//     func;
-//   } else if (isPlayAgain.toLowerCase() === "" || isPlayAgain.toLowerCase() === " ") {
-//     return;
-//   }
-// };
+let hideButtons = () => {
+  endGameBtn.classList.add("hidden");
+  playAgainBtn.classList.remove("hidden");
+}
 
 let resetAll = (targetUI) => {
   triesCountEl.innerText = 4;
