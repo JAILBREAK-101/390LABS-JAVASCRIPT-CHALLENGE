@@ -131,11 +131,11 @@ playButton.addEventListener("click", () => {
 });
 
 let pickLevel = () => {
-  gameLevels.filter((level) => {
-    if (level.checked === false) return;
+  gameLevels.map((level) => {
     if (level.checked === true) {
       displayLevelInfo(level);
     }
+    if (level.checked === false) return;
   });
   switchUI(selectionUI, gameplayUI);
 };
@@ -189,21 +189,14 @@ let startGame = (value) => checkGuess(value);
 
 let checkGuess = (value) => {
   let generatedNumber =
-    Math.ceil(Math.random() * value.levelRange.max) + value.levelRange.min;
+    Math.ceil(Math.random() * 2) + value.levelRange.min;
   if (guessInput.value === "") return;
   userGuess.innerText = guessInput.value;
   correctNo.innerText = generatedNumber;
-  value === generatedNumber
+
+  parseInt(guessInput.value) === generatedNumber
     ? gameWon(value, generatedNumber, parseInt(scoresValueEl.innerText), userTriesEl, levelEl.innerText)
     : decrementNoOfTries(triesCountEl, value, generatedNumber, parseInt(scoresValueEl.innerText), userTriesEl, levelEl.innerText);
-};
-
-let gameWon = (userVal, compVal, score, userTries, level) => {
-  aggregateTries(userTries);
-  guessForm.classList.add("stop-game");
-  revealTexts[1].classList.remove("hidden");
-  calculateScores(userVal, compVal);
-  updateValues(score, userTries, level);
 };
 
 let clearInput = () => (guessInput.value = "");
@@ -218,13 +211,25 @@ let decrementNoOfTries = (tries, userVal, compVal, score, userTries, level) => {
   }
 };
 
+let gameWon = (userVal, compVal, score, userTries, level) => {
+  stopGame();
+  aggregateTries(userTries);
+  revealTexts[1].classList.remove("hidden");
+  calculateScores(userVal, compVal);
+  updateValues(score, userTries, level);
+  // guessForm.classList1.add("stop-game");
+};
+
 let gameOver = (score, userTries, level) => {
-  guessForm.classList.add("stop-game");
-  guessInput.blur();
+  stopGame();
   revealTexts[0].classList.remove("hidden");
-  hideButtons();
   updateValues(score, userTries, level);
 };
+
+let stopGame = () => {
+  guessInput.blur();
+  hideButtons();
+}
 
 let hideButtons = () => {
   endGameBtn.classList.add("hidden");
