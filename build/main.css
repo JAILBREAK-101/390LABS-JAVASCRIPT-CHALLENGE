@@ -16,24 +16,6 @@
   --clr-gradient-radial: radial-gradient(#f6f7eb, #e94f37, #393e41, #3f88c5, #44bba4);
 }
 
-/* SCSS HSL */
-:root {
-  --clr-ivory: hsl(65, 43%, 95%);
-  --clr-cinnabar: hsl(8, 80%, 56%);
-  --clr-onyx: hsl(203, 7%, 24%);
-  --clr-steel-blue: hsl(207, 54%, 51%);
-  --clr-keppel: hsl(168, 47%, 50%);
-  --clr-gradient-top: linear-gradient(0deg, #f6f7eb, #e94f37, #393e41, #3f88c5, #44bba4);
-  --clr-gradient-right: linear-gradient(90deg, #f6f7eb, #e94f37, #393e41, #3f88c5, #44bba4);
-  --clr-gradient-bottom: linear-gradient(180deg, #f6f7eb, #e94f37, #393e41, #3f88c5, #44bba4);
-  --clr-gradient-left: linear-gradient(270deg, #f6f7eb, #e94f37, #393e41, #3f88c5, #44bba4);
-  --clr-gradient-top-right: linear-gradient(45deg, #f6f7eb, #e94f37, #393e41, #3f88c5, #44bba4);
-  --clr-gradient-bottom-right: linear-gradient(135deg, #f6f7eb, #e94f37, #393e41, #3f88c5, #44bba4);
-  --clr-gradient-top-left: linear-gradient(225deg, #f6f7eb, #e94f37, #393e41, #3f88c5, #44bba4);
-  --clr-gradient-bottom-left: linear-gradient(315deg, #f6f7eb, #e94f37, #393e41, #3f88c5, #44bba4);
-  --clr-gradient-radial: radial-gradient(#f6f7eb, #e94f37, #393e41, #3f88c5, #44bba4);
-}
-
 body {
   height: 100vh;
   background-color: var();
